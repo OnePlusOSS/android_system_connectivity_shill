@@ -34,7 +34,7 @@ namespace shill {
 
 class ControlInterface;
 class DeviceInfo;
-class PermissionBrokerProxyInterface;
+class FirewallProxyInterface;
 class RTNLHandler;
 class Resolver;
 class RoutingTable;
@@ -229,7 +229,7 @@ class Connection : public base::RefCounted<Connection> {
   RTNLHandler* rtnl_handler_;
 
   ControlInterface* control_interface_;
-  std::unique_ptr<PermissionBrokerProxyInterface> permission_broker_;
+  std::unique_ptr<FirewallProxyInterface> firewall_proxy_;
 
   DISALLOW_COPY_AND_ASSIGN(Connection);
 };

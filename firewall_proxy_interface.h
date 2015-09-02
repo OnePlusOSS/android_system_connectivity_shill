@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#ifndef SHILL_PERMISSION_BROKER_PROXY_INTERFACE_H_
-#define SHILL_PERMISSION_BROKER_PROXY_INTERFACE_H_
+#ifndef SHILL_FIREWALL_PROXY_INTERFACE_H_
+#define SHILL_FIREWALL_PROXY_INTERFACE_H_
 
 #include <string>
 #include <vector>
 
 namespace shill {
 
-class PermissionBrokerProxyInterface {
+class FirewallProxyInterface {
  public:
-  virtual ~PermissionBrokerProxyInterface() {}
+  virtual ~FirewallProxyInterface() {}
   virtual bool RequestVpnSetup(const std::vector<std::string>& user_names,
                                const std::string& interface) = 0;
   virtual bool RemoveVpnSetup() = 0;
@@ -32,4 +32,4 @@ class PermissionBrokerProxyInterface {
 
 }  // namespace shill
 
-#endif  // SHILL_PERMISSION_BROKER_PROXY_INTERFACE_H_
+#endif  // SHILL_FIREWALL_PROXY_INTERFACE_H_
