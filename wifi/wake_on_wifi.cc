@@ -1212,7 +1212,7 @@ void WakeOnWiFi::OnWakeupReasonReceived(const NetlinkMessage& netlink_message) {
                   << "Wakeup reason: SSID";
     last_wake_reason_ = kWakeTriggerSSID;
     record_wake_reason_callback_.Run(kWakeReasonStringSSID);
-    last_ssid_match_freqs_ = ParseWakeOnWakeOnSSIDResults(results_list);
+    last_ssid_match_freqs_ = ParseWakeOnSSIDResults(results_list);
     return;
   }
   SLOG(this, 3) << __func__ << ": "
@@ -1462,7 +1462,7 @@ void WakeOnWiFi::BeforeSuspendActions(
 }
 
 // static
-WiFi::FreqSet WakeOnWiFi::ParseWakeOnWakeOnSSIDResults(
+WiFi::FreqSet WakeOnWiFi::ParseWakeOnSSIDResults(
     AttributeListConstRefPtr results_list) {
   WiFi::FreqSet freqs;
   AttributeIdIterator results_iter(*results_list);
