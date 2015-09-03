@@ -164,7 +164,7 @@ string Profile::GetFriendlyName() {
 
 string Profile::GetRpcIdentifier() {
   if (!adaptor_.get()) {
-    return control_interface_->NullRPCIdentifier();
+    return string();
   }
   return adaptor_->GetRpcIdentifier();
 }
