@@ -238,7 +238,6 @@
       'dependencies': [
         'mobile_operator_db',
         'shill-adaptors',
-        'shill-proxies',
         'shim-protos',
         'libshill-net-<(libbase_ver)',
       ],
@@ -251,7 +250,10 @@
           'libmetrics-<(libbase_ver)',
           'protobuf-lite',
         ],
-        'deps': ['<@(exported_deps)'],
+        'deps': [
+          '<@(exported_deps)',
+          'libshill-client',
+        ],
       },
       'all_dependent_settings': {
         'variables': {
@@ -663,10 +665,10 @@
     {
       'target_name': 'openvpn-script',
       'type': 'executable',
-      'dependencies': ['shill-proxies'],
       'variables': {
         'deps': [
           'dbus-c++-1',
+          'libshill-client',
         ],
       },
       'sources': [
@@ -698,10 +700,10 @@
         {
           'target_name': 'shill-pppd-plugin',
           'type': 'shared_library',
-          'dependencies': ['shill-proxies'],
           'variables': {
             'deps': [
               'dbus-c++-1',
+              'libshill-client',
             ],
           },
           'sources': [
