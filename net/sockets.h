@@ -26,7 +26,7 @@
 
 #include <base/macros.h>
 
-#include "shill/shill_export.h"
+#include "shill/net/shill_export.h"
 
 namespace shill {
 

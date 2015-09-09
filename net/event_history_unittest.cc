@@ -20,12 +20,14 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "shill/net/mock_time.h"
 #include "shill/net/shill_time.h"
 
 using std::deque;
 using std::string;
+using std::vector;
 using ::testing::Mock;
 using ::testing::Return;
 
@@ -76,7 +78,7 @@ class EventHistoryTest : public ::testing::Test {
     event_history_->RecordEventAndExpireEventsBefore(seconds_ago, clock_type);
   }
 
-  Strings ExtractWallClockToStrings() {
+  vector<string> ExtractWallClockToStrings() {
     return event_history_->ExtractWallClockToStrings();
   }
 
@@ -240,7 +242,7 @@ TEST_F(EventHistoryTest, ConvertTimestampsToStrings) {
     RecordEvent(kValues[i]);
   }
 
-  Strings strings = ExtractWallClockToStrings();
+  vector<string> strings = ExtractWallClockToStrings();
   EXPECT_GT(arraysize(kValues), 0);
   ASSERT_EQ(arraysize(kValues), strings.size());
   for (size_t i = 0; i < arraysize(kValues); i++) {

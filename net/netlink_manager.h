@@ -84,8 +84,8 @@
 #include "shill/net/io_handler_factory_container.h"
 #include "shill/net/netlink_message.h"
 #include "shill/net/netlink_socket.h"
+#include "shill/net/shill_export.h"
 #include "shill/net/shill_time.h"
-#include "shill/shill_export.h"
 
 namespace shill {
 
