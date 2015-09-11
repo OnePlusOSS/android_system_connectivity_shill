@@ -23,7 +23,7 @@
             'dbus_bindings/org.chromium.flimflam.Task.xml',
             'dbus_bindings/org.chromium.flimflam.ThirdPartyVpn.xml',
           ],
-          'includes': ['../common-mk/generate-dbus-proxies.gypi'],
+          'includes': ['../../../../platform2/common-mk/generate-dbus-proxies.gypi'],
         },
       ]
     },
@@ -44,7 +44,7 @@
         '<(xml2cpp_in_dir)/org.chromium.flimflam.Task.xml',
         '<(xml2cpp_in_dir)/org.chromium.flimflam.ThirdPartyVpn.xml',
       ],
-      'includes': ['../common-mk/xml2cpp.gypi'],
+      'includes': ['../../../../platform2/common-mk/xml2cpp.gypi'],
     },
   ],
 }

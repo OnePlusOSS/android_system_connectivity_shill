@@ -97,6 +97,11 @@
         ],
       }],
     ],
+    'include_dirs': [
+      # We need this include dir because we include all the local code as
+      # # "shill/...".
+      '<(platform2_root)/../aosp/system/connectivity',
+    ],
   },
   'includes': [
     'shill.gypi',
@@ -113,7 +118,7 @@
       'sources': [
         '<(proto_in_dir)/mobile_operator_db.proto'
       ],
-      'includes': ['../common-mk/protoc.gypi'],
+      'includes': ['../../../../platform2/common-mk/protoc.gypi'],
     },
     {
       'target_name': 'mobile_operator_db-db',
@@ -128,7 +133,7 @@
       'sources': [
         '<(protoc_text_dir)/serviceproviders.prototxt',
       ],
-      'includes': ['../common-mk/protoctxt.gypi'],
+      'includes': ['../../../../platform2/common-mk/protoctxt.gypi'],
     },
     {
       'target_name': 'mobile_operator_db',
@@ -155,7 +160,7 @@
         '<(xml2cpp_in_dir)/org.chromium.flimflam.Task.xml',
         '<(xml2cpp_in_dir)/org.chromium.flimflam.ThirdPartyVpn.xml',
       ],
-      'includes': ['../common-mk/xml2cpp.gypi'],
+      'includes': ['../../../../platform2/common-mk/xml2cpp.gypi'],
     },
     # ChromeOS DBus bindings.
     # TODO(zqiu): remove the legacy dbus-c++ bindings when switching over
@@ -175,7 +180,7 @@
         'dbus_bindings/org.chromium.flimflam.Task.xml',
         'dbus_bindings/org.chromium.flimflam.ThirdPartyVpn.xml',
       ],
-      'includes': ['../common-mk/generate-dbus-adaptors.gypi'],
+      'includes': ['../../../../platform2/common-mk/generate-dbus-adaptors.gypi'],
     },
     {
       'target_name': 'shim-protos',
@@ -187,7 +192,7 @@
       'sources': [
         '<(proto_in_dir)/crypto_util.proto',
       ],
-      'includes': ['../common-mk/protoc.gypi'],
+      'includes': ['../../../../platform2/common-mk/protoc.gypi'],
     },
     {
       'target_name': 'crypto_util',
@@ -230,7 +235,7 @@
         'net/shill_time.cc',
         'net/sockets.cc',
       ],
-      'includes': ['../common-mk/deps.gypi'],
+      'includes': ['../../../../platform2/common-mk/deps.gypi'],
     },
     {
       'target_name': 'libshill',
@@ -285,7 +290,7 @@
       'conditions': [
         ['USE_cellular == 1', {
           'dependencies': [
-            '../common-mk/external_dependencies.gyp:modemmanager-dbus-proxies',
+            '../../../../platform2/common-mk/external_dependencies.gyp:modemmanager-dbus-proxies',
           ],
           'variables': {
             'deps': [
@@ -358,7 +363,7 @@
                     '<(modemmanager_in_dir)/org.freedesktop.ModemManager1.Modem.xml',
                     '<(modemmanager_in_dir)/org.freedesktop.ModemManager1.Sim.xml',
                   ],
-                  'includes': ['../common-mk/generate-dbus-proxies.gypi'],
+                  'includes': ['../../../../platform2/common-mk/generate-dbus-proxies.gypi'],
                 },
               ],
             }],
@@ -406,7 +411,7 @@
               'sources': [
                 'dbus_bindings/dhcpcd.xml',
               ],
-              'includes': ['../common-mk/generate-dbus-proxies.gypi'],
+              'includes': ['../../../../platform2/common-mk/generate-dbus-proxies.gypi'],
             },
             {
               'action_name': 'generate-upstart-proxies',
@@ -416,7 +421,7 @@
               'sources': [
                 'dbus_bindings/upstart.xml',
               ],
-              'includes': ['../common-mk/generate-dbus-proxies.gypi'],
+              'includes': ['../../../../platform2/common-mk/generate-dbus-proxies.gypi'],
             },
           ],
         }],
@@ -478,7 +483,7 @@
                     'dbus_bindings/supplicant-network.xml',
                     'dbus_bindings/supplicant-process.xml',
                   ],
-                  'includes': ['../common-mk/generate-dbus-proxies.gypi'],
+                  'includes': ['../../../../platform2/common-mk/generate-dbus-proxies.gypi'],
                 },
               ],
             }],
@@ -508,7 +513,7 @@
                     '../wimax_manager/dbus_bindings/org.chromium.WiMaxManager.Network.xml',
                     '../wimax_manager/dbus_bindings/org.chromium.WiMaxManager.xml',
                   ],
-                  'includes': ['../common-mk/generate-dbus-proxies.gypi'],
+                  'includes': ['../../../../platform2/common-mk/generate-dbus-proxies.gypi'],
                 },
               ],
             }],
@@ -724,7 +729,7 @@
           'dependencies': [
             'libshill',
           ],
-          'includes': ['../common-mk/common_test.gypi'],
+          'includes': ['../../../../platform2/common-mk/common_test.gypi'],
           'variables': {
             'deps': [
               'libchrome-test-<(libbase_ver)',
