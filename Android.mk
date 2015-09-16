@@ -14,6 +14,8 @@
 
 LOCAL_PATH := $(call my-dir)
 
+ifeq ($(HOST_OS),linux)
+
 # Common variables
 # ========================================================
 
@@ -97,3 +99,5 @@ LOCAL_SRC_FILES := \
     net/shill_time.cc \
     net/sockets.cc
 include $(BUILD_SHARED_LIBRARY)
+
+endif # HOST_OS == linux
