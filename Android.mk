@@ -295,4 +295,25 @@ endif
 $(eval $(shill_cpp_common))
 include $(BUILD_STATIC_LIBRARY)
 
+# shill
+# ========================================================
+include $(CLEAR_VARS)
+LOCAL_MODULE := shill
+LOCAL_CPPFLAGS := $(shill_cpp_flags)
+LOCAL_SHARED_LIBRARIES := \
+    $(shill_shared_libraries) \
+    libchromeos-minijail \
+    libminijail \
+    libcares \
+    libchromeos-dbus \
+    libchrome-dbus \
+    libshill-net \
+    libmetrics \
+    libprotobuf-cpp-lite-rtti
+LOCAL_STATIC_LIBRARIES := libshill
+LOCAL_C_INCLUDES := $(shill_c_includes)
+LOCAL_SRC_FILES := shill_main.cc
+$(eval $(shill_cpp_common))
+include $(BUILD_EXECUTABLE)
+
 endif # HOST_OS == linux
