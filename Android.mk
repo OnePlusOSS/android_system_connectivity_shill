@@ -66,10 +66,10 @@ endif
 # libshill-net
 # ========================================================
 include $(CLEAR_VARS)
+LOCAL_CLANG := true
 LOCAL_CPP_EXTENSION := $(shill_cpp_extension)
 LOCAL_MODULE := libshill-net
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-LOCAL_SRC_FILES := $(libshill_net_sources)
 LOCAL_CFLAGS := $(shill_c_flags)
 LOCAL_CPPFLAGS := $(shill_cpp_flags) -Wno-sign-promo
 LOCAL_RTTI_FLAG := -frtti
