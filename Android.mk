@@ -37,13 +37,13 @@ define shill_cpp_common
     -DDISABLE_WIMAX \
     -DENABLE_CHROMEOS_DBUS \
     -DENABLE_JSON_STORE
-  ifneq ($(shill_use_dhcpv6)), yes)
+  ifneq ($(shill_use_dhcpv6), yes)
     LOCAL_CFLAGS += -DDISABLE_DHCPV6
   endif
-  ifneq ($(shill_use_pppoe)), yes)
+  ifneq ($(shill_use_pppoe), yes)
     LOCAL_CFLAGS += -DDISABLE_PPPOE
   endif
-  ifneq ($(shill_use_wired_8021x)), yes)
+  ifneq ($(shill_use_wired_8021x), yes)
     LOCAL_CFLAGS += -DDISABLE_WIRED_8021X
   endif
 endef
@@ -284,12 +284,12 @@ LOCAL_SRC_FILES := \
     vpn/vpn_driver.cc \
     vpn/vpn_provider.cc \
     vpn/vpn_service.cc
-ifeq ($(shill_use_wired_8021x)), yes)
+ifeq ($(shill_use_wired_8021x), yes)
 LOCAL_SRC_FILES += \
     ethernet/ethernet_eap_provider.cc \
     ethernet/ethernet_eap_service.cc
 endif
-ifeq ($(shill_use_dhcpv6)), yes)
+ifeq ($(shill_use_dhcpv6), yes)
 LOCAL_SRC_FILES += dhcp/dhcpv6_config.cc
 endif
 $(eval $(shill_cpp_common))
