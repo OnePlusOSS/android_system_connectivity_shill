@@ -320,7 +320,7 @@ include $(BUILD_EXECUTABLE)
 # ========================================================
 include $(CLEAR_VARS)
 LOCAL_MODULE := shill_unittest
-LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_CLASS := EXECUTABLES
 LOCAL_CPPFLAGS := $(shill_cpp_flags) -Wno-sign-compare -Wno-return-stack-address
 LOCAL_SHARED_LIBRARIES := \
     $(shill_shared_libraries) \
