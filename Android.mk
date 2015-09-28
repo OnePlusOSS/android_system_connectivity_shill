@@ -14,8 +14,6 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(HOST_OS),linux)
-
 # Common variables
 # ========================================================
 
@@ -527,5 +525,3 @@ LOCAL_SRC_FILES += \
 endif
 $(eval $(shill_cpp_common))
 include $(BUILD_NATIVE_TEST)
-
-endif # HOST_OS == linux
