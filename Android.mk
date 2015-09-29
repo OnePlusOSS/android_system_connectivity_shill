@@ -1,3 +1,4 @@
+#
 # Copyright (C) 2015 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
 LOCAL_PATH := $(call my-dir)
 
@@ -43,6 +45,9 @@ define shill_cpp_common
   endif
   ifneq ($(shill_use_wired_8021x), yes)
     LOCAL_CFLAGS += -DDISABLE_WIRED_8021X
+  endif
+  ifdef BRILLO
+    LOCAL_CFLAGS += -D__BRILLO__
   endif
 endef
 
