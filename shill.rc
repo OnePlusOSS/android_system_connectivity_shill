@@ -1,0 +1,5 @@
+service shill /system/bin/shill
+    class main
+    user root
+    group system dbus inet
+    disabled

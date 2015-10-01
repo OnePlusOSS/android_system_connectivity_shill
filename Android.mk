@@ -323,6 +323,7 @@ LOCAL_SHARED_LIBRARIES := \
 LOCAL_STATIC_LIBRARIES := libshill
 LOCAL_C_INCLUDES := $(shill_c_includes)
 LOCAL_SRC_FILES := shill_main.cc
+LOCAL_INIT_RC := shill.rc
 $(eval $(shill_cpp_common))
 include $(BUILD_EXECUTABLE)
 
