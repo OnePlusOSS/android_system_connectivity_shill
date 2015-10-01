@@ -231,6 +231,7 @@ LOCAL_SRC_FILES := \
     dhcp/dhcpv4_config.cc \
     dns_client.cc \
     dns_client_factory.cc \
+    dns_server_proxy.cc \
     dns_server_tester.cc \
     ephemeral_profile.cc \
     error.cc \
