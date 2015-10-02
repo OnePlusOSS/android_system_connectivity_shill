@@ -6,4 +6,3 @@ service shill /system/bin/shill --device-black-list=sit0,dummy0
     class main
     user root
     group system dbus inet
-    disabled
