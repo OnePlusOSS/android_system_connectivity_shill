@@ -99,12 +99,6 @@ LOCAL_SRC_FILES := \
     net/rtnl_message.cc \
     net/shill_time.cc \
     net/sockets.cc
-ifdef BRILLO
-LOCAL_SHARED_LIBRARIES += libhardware
-LOCAL_C_INCLUDES += device/generic/brillo/wifi_driver_hal/include
-LOCAL_REQUIRED_MODULES := $(WIFI_DRIVER_HAL_MODULE)
-LOCAL_SRC_FILES += net/wifi_driver_hal.cc
-endif # BRILLO
 $(eval $(shill_cpp_common))
 include $(BUILD_SHARED_LIBRARY)
 
@@ -302,6 +296,12 @@ endif
 ifeq ($(shill_use_dhcpv6), yes)
 LOCAL_SRC_FILES += dhcp/dhcpv6_config.cc
 endif
+ifdef BRILLO
+LOCAL_SHARED_LIBRARIES += libhardware
+LOCAL_C_INCLUDES += device/generic/brillo/wifi_driver_hal/include
+LOCAL_REQUIRED_MODULES := $(WIFI_DRIVER_HAL_MODULE)
+LOCAL_SRC_FILES += wifi/wifi_driver_hal.cc
+endif # BRILLO
 $(eval $(shill_cpp_common))
 include $(BUILD_STATIC_LIBRARY)
 
@@ -320,6 +320,9 @@ LOCAL_SHARED_LIBRARIES := \
     libshill-net \
     libmetrics \
     libprotobuf-cpp-lite-rtti
+ifdef BRILLO
+LOCAL_SHARED_LIBRARIES += libhardware
+endif # BRILLO
 LOCAL_STATIC_LIBRARIES := libshill
 LOCAL_C_INCLUDES := $(shill_c_includes)
 LOCAL_SRC_FILES := shill_main.cc
