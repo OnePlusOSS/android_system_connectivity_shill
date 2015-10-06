@@ -226,6 +226,7 @@ LOCAL_SRC_FILES := \
     dns_client.cc \
     dns_client_factory.cc \
     dns_server_proxy.cc \
+    dns_server_proxy_factory.cc \
     dns_server_tester.cc \
     ephemeral_profile.cc \
     error.cc \
@@ -420,6 +421,8 @@ LOCAL_SRC_FILES := \
     mock_device_info.cc \
     mock_dns_client.cc \
     mock_dns_client_factory.cc \
+    mock_dns_server_proxy.cc \
+    mock_dns_server_proxy_factory.cc \
     mock_dns_server_tester.cc \
     mock_event_dispatcher.cc \
     mock_external_task.cc \
