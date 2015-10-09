@@ -300,7 +300,6 @@ endif
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
 LOCAL_C_INCLUDES += device/generic/brillo/wifi_driver_hal/include
-LOCAL_REQUIRED_MODULES := $(WIFI_DRIVER_HAL_MODULE)
 LOCAL_SRC_FILES += wifi/wifi_driver_hal.cc
 endif # BRILLO
 $(eval $(shill_cpp_common))
@@ -323,6 +322,7 @@ LOCAL_SHARED_LIBRARIES := \
     libprotobuf-cpp-lite-rtti
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
+LOCAL_REQUIRED_MODULES := $(WIFI_DRIVER_HAL_MODULE)
 endif # BRILLO
 LOCAL_STATIC_LIBRARIES := libshill
 LOCAL_C_INCLUDES := $(shill_c_includes)
