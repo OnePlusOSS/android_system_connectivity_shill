@@ -2,7 +2,7 @@
 on boot
     mkdir /data/misc/dhcp-6.8.2 0755 dhcp dhcp
 
-service shill /system/bin/shill --device-black-list=sit0,dummy0
+service shill /system/bin/shill --device-black-list=sit0,dummy0,p2p0
     class main
     user root
     group system dbus inet
