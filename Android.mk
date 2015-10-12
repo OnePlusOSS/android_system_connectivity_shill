@@ -331,11 +331,14 @@ LOCAL_INIT_RC := shill.rc
 $(eval $(shill_cpp_common))
 include $(BUILD_EXECUTABLE)
 
-# shill_unittest (native test)
+# shill_test (native test)
 # ========================================================
 include $(CLEAR_VARS)
-LOCAL_MODULE := shill_unittest
+LOCAL_MODULE := shill_test
 LOCAL_MODULE_CLASS := EXECUTABLES
+ifdef BRILLO
+LOCAL_MODULE_TAGS := debug
+endif # BRILLO
 LOCAL_CPPFLAGS := $(shill_cpp_flags) -Wno-sign-compare -Wno-return-stack-address
 LOCAL_SHARED_LIBRARIES := \
     $(shill_shared_libraries) \
@@ -536,5 +539,8 @@ LOCAL_SRC_FILES += \
     ethernet/ethernet_eap_service_unittest.cc \
     ethernet/mock_ethernet_eap_provider.cc
 endif
+ifdef BRILLO
+LOCAL_SHARED_LIBRARIES += libhardware
+endif # BRILLO
 $(eval $(shill_cpp_common))
 include $(BUILD_NATIVE_TEST)
