@@ -37,13 +37,16 @@ define shill_cpp_common
     -DDISABLE_WIMAX \
     -DENABLE_CHROMEOS_DBUS \
     -DENABLE_JSON_STORE
-  ifneq ($(shill_use_dhcpv6), yes)
+  ifneq ($(SHILL_USE_WIFI), true)
+    LOCAL_CFLAGS += -DDISABLE_WIFI
+  endif
+  ifneq ($(SHILL_USE_DHCPV6), true)
     LOCAL_CFLAGS += -DDISABLE_DHCPV6
   endif
-  ifneq ($(shill_use_pppoe), yes)
+  ifneq ($(SHILL_USE_PPPOE), true)
     LOCAL_CFLAGS += -DDISABLE_PPPOE
   endif
-  ifneq ($(shill_use_wired_8021x), yes)
+  ifneq ($(SHILL_USE_WIRED_8021X), true)
     LOCAL_CFLAGS += -DDISABLE_WIRED_8021X
   endif
   ifdef BRILLO
@@ -170,23 +173,6 @@ LOCAL_SRC_FILES := \
     dbus_bindings/org.chromium.flimflam.Task.dbus-xml \
     dbus_bindings/org.chromium.flimflam.ThirdPartyVpn.dbus-xml \
     json_store.cc \
-    wifi/callback80211_metrics.cc \
-    wifi/mac80211_monitor.cc \
-    wifi/scan_session.cc \
-    wifi/tdls_manager.cc \
-    wifi/wake_on_wifi.cc \
-    wifi/wifi.cc \
-    wifi/wifi_endpoint.cc \
-    wifi/wifi_provider.cc \
-    wifi/wifi_service.cc \
-    dbus/chromeos_supplicant_bss_proxy.cc \
-    dbus/chromeos_supplicant_interface_proxy.cc \
-    dbus/chromeos_supplicant_network_proxy.cc \
-    dbus/chromeos_supplicant_process_proxy.cc \
-    eap_credentials.cc \
-    eap_listener.cc \
-    supplicant/supplicant_eap_state_handler.cc \
-    supplicant/wpa_supplicant.cc \
     active_link_monitor.cc \
     arp_client.cc \
     arp_packet.cc \
@@ -289,13 +275,36 @@ LOCAL_SRC_FILES := \
     vpn/vpn_driver.cc \
     vpn/vpn_provider.cc \
     vpn/vpn_service.cc
-ifeq ($(shill_use_wired_8021x), yes)
+ifeq ($(SHILL_USE_WIFI), true)
+LOCAL_SRC_FILES += \
+    wifi/callback80211_metrics.cc \
+    wifi/mac80211_monitor.cc \
+    wifi/scan_session.cc \
+    wifi/tdls_manager.cc \
+    wifi/wake_on_wifi.cc \
+    wifi/wifi.cc \
+    wifi/wifi_endpoint.cc \
+    wifi/wifi_provider.cc \
+    wifi/wifi_service.cc
+endif
+ifeq ($(SHILL_USE_WIRED_8021X), true)
 LOCAL_SRC_FILES += \
     ethernet/ethernet_eap_provider.cc \
     ethernet/ethernet_eap_service.cc
 endif
-ifeq ($(shill_use_dhcpv6), yes)
+ifeq ($(SHILL_USE_DHCPV6), true)
 LOCAL_SRC_FILES += dhcp/dhcpv6_config.cc
+endif
+ifneq (,$(filter true, $(SHILL_USE_WIRED_8021X) $(SHILL_USE_WIFI)))
+LOCAL_SRC_FILES += \
+    dbus/chromeos_supplicant_bss_proxy.cc \
+    dbus/chromeos_supplicant_interface_proxy.cc \
+    dbus/chromeos_supplicant_network_proxy.cc \
+    dbus/chromeos_supplicant_process_proxy.cc \
+    supplicant/supplicant_eap_state_handler.cc \
+    supplicant/wpa_supplicant.cc \
+    eap_credentials.cc \
+    eap_listener.cc
 endif
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
@@ -498,7 +507,9 @@ LOCAL_SRC_FILES := \
     upstart/upstart_unittest.cc \
     virtual_device_unittest.cc \
     vpn/mock_vpn_provider.cc \
-    json_store_unittest.cc \
+    json_store_unittest.cc
+ifeq ($(SHILL_USE_WIFI), true)
+LOCAL_SRC_FILES += \
     net/netlink_manager_unittest.cc \
     net/netlink_message_unittest.cc \
     net/netlink_packet_unittest.cc \
@@ -519,25 +530,29 @@ LOCAL_SRC_FILES := \
     wifi/wifi_endpoint_unittest.cc \
     wifi/wifi_provider_unittest.cc \
     wifi/wifi_service_unittest.cc \
-    wifi/wifi_unittest.cc \
-    eap_credentials_unittest.cc \
-    eap_listener_unittest.cc \
-    mock_eap_credentials.cc \
-    mock_eap_listener.cc \
+    wifi/wifi_unittest.cc
+endif
+ifeq ($(SHILL_USE_DHCPV6), true)
+LOCAL_SRC_FILES += dhcp/dhcpv6_config_unittest.cc
+endif
+ifeq ($(SHILL_USE_WIRED_8021X), true)
+LOCAL_SRC_FILES += \
+    ethernet/ethernet_eap_provider_unittest.cc \
+    ethernet/ethernet_eap_service_unittest.cc \
+    ethernet/mock_ethernet_eap_provider.cc
+endif
+ifneq (,$(filter true, $(SHILL_USE_WIRED_8021X) $(SHILL_USE_WIFI)))
+LOCAL_SRC_FILES += \
     supplicant/mock_supplicant_eap_state_handler.cc \
     supplicant/mock_supplicant_interface_proxy.cc \
     supplicant/mock_supplicant_network_proxy.cc \
     supplicant/mock_supplicant_process_proxy.cc \
     supplicant/supplicant_eap_state_handler_unittest.cc \
-    supplicant/wpa_supplicant_unittest.cc
-ifeq ($(shill_use_dhcpv6), yes)
-LOCAL_SRC_FILES += dhcp/dhcpv6_config_unittest.cc
-endif
-ifeq ($(shill_use_wired_8021x), yes)
-LOCAL_SRC_FILES += \
-    ethernet/ethernet_eap_provider_unittest.cc \
-    ethernet/ethernet_eap_service_unittest.cc \
-    ethernet/mock_ethernet_eap_provider.cc
+    supplicant/wpa_supplicant_unittest.cc \
+    eap_credentials_unittest.cc \
+    eap_listener_unittest.cc \
+    mock_eap_credentials.cc \
+    mock_eap_listener.cc
 endif
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
