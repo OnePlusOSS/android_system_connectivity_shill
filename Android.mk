@@ -119,6 +119,7 @@ LOCAL_SRC_FILES := \
     dbus_bindings/org.chromium.flimflam.Service.dbus-xml \
     dbus_bindings/org.chromium.flimflam.Task.dbus-xml \
     dbus_bindings/org.chromium.flimflam.ThirdPartyVpn.dbus-xml
+LOCAL_EXPORT_C_INCLUDE_DIRS := external/cros/system_api/
 include $(BUILD_SHARED_LIBRARY)
 
 # supplicant-proxies (static library)
@@ -559,3 +560,19 @@ LOCAL_SHARED_LIBRARIES += libhardware
 endif # BRILLO
 $(eval $(shill_cpp_common))
 include $(BUILD_NATIVE_TEST)
+
+# setup_wifi
+# ========================================================
+include $(CLEAR_VARS)
+# The module name can't be the same of a directory in the source code.
+LOCAL_MODULE := shill_setup_wifi
+LOCAL_CPPFLAGS := $(shill_cpp_flags)
+LOCAL_SHARED_LIBRARIES := \
+    $(shill_shared_libraries) \
+    libshill-client \
+    libchromeos-dbus \
+    libchrome-dbus
+LOCAL_C_INCLUDES := $(shill_c_includes)
+LOCAL_SRC_FILES := setup_wifi/main.cc
+$(eval $(shill_cpp_common))
+include $(BUILD_EXECUTABLE)
