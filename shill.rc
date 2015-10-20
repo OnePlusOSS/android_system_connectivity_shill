@@ -1,8 +1,8 @@
 # For dhcpcd-6.8.2.
-on boot
+on post-fs-data
     mkdir /data/misc/dhcp-6.8.2 0755 dhcp dhcp
 
 service shill /system/bin/shill --device-black-list=sit0,dummy0,p2p0
-    class main
+    class late_start
     user root
     group system dbus inet
