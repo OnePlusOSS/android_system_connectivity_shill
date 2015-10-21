@@ -577,3 +577,12 @@ LOCAL_C_INCLUDES := $(shill_c_includes)
 LOCAL_SRC_FILES := setup_wifi/main.cc
 $(eval $(shill_cpp_common))
 include $(BUILD_EXECUTABLE)
+
+# helper scripts
+# ========================================================
+include $(CLEAR_VARS)
+LOCAL_MODULE_TAGS := eng tests
+LOCAL_PREBUILT_EXECUTABLES := \
+    bin/wpa_debug \
+    bin/ff_debug
+include $(BUILD_MULTI_PREBUILT)
