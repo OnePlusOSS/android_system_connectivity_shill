@@ -26,17 +26,17 @@ define shill_cpp_common
   LOCAL_CLANG := true
   LOCAL_RTTI_FLAG := -frtti
   LOCAL_CFLAGS := \
-    -Wextra \
-    -Werror \
-    -Wno-unused-parameter \
-    -DRUNDIR=\"/data/misc/shill\" \
-    -DSHIMDIR=\"/system/lib/shill/shims\" \
-    -DDISABLE_CELLULAR \
-    -DDISABLE_VPN \
-    -DDISABLE_WAKE_ON_WIFI \
-    -DDISABLE_WIMAX \
-    -DENABLE_CHROMEOS_DBUS \
-    -DENABLE_JSON_STORE
+      -Wextra \
+      -Werror \
+      -Wno-unused-parameter \
+      -DRUNDIR=\"/data/misc/shill\" \
+      -DSHIMDIR=\"/system/lib/shill/shims\" \
+      -DDISABLE_CELLULAR \
+      -DDISABLE_VPN \
+      -DDISABLE_WAKE_ON_WIFI \
+      -DDISABLE_WIMAX \
+      -DENABLE_CHROMEOS_DBUS \
+      -DENABLE_JSON_STORE
   ifneq ($(SHILL_USE_WIFI), true)
     LOCAL_CFLAGS += -DDISABLE_WIFI
   endif
@@ -52,6 +52,11 @@ define shill_cpp_common
   ifdef BRILLO
     LOCAL_CFLAGS += -D__BRILLO__
   endif
+  # The following flags ensure that shill builds with the same compiler
+  # warnings disabled in CrOS and Android.
+  LOCAL_CFLAGS +=  \
+      -Wmultichar \
+      -Wunused
 endef
 
 shill_parent_dir := $(LOCAL_PATH)/../
@@ -68,7 +73,6 @@ shill_shared_libraries := \
 shill_cpp_flags := \
     -fno-strict-aliasing \
     -Woverloaded-virtual \
-    -Wno-sign-promo \
     -Wno-missing-field-initializers  # for LAZY_INSTANCE_INITIALIZER
 
 # libshill-net (shared library)
