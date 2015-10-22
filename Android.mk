@@ -49,9 +49,6 @@ define shill_cpp_common
   ifneq ($(SHILL_USE_WIRED_8021X), true)
     LOCAL_CFLAGS += -DDISABLE_WIRED_8021X
   endif
-  ifdef BRILLO
-    LOCAL_CFLAGS += -D__BRILLO__
-  endif
   # The following flags ensure that shill builds with the same compiler
   # warnings disabled in CrOS and Android.
   LOCAL_CFLAGS +=  \
