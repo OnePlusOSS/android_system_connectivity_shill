@@ -63,8 +63,8 @@ shill_c_includes := \
     external/gtest/include/
 
 shill_shared_libraries := \
+    libbrillo \
     libchrome \
-    libchromeos \
     libdbus
 
 shill_cpp_flags := \
@@ -323,10 +323,10 @@ LOCAL_MODULE := shill
 LOCAL_CPPFLAGS := $(shill_cpp_flags)
 LOCAL_SHARED_LIBRARIES := \
     $(shill_shared_libraries) \
-    libchromeos-minijail \
+    libbrillo-minijail \
     libminijail \
     libcares \
-    libchromeos-dbus \
+    libbrillo-dbus \
     libchrome-dbus \
     libshill-net \
     libmetrics \
@@ -357,8 +357,8 @@ LOCAL_SHARED_LIBRARIES := \
     libminijail \
     libmetrics \
     libcares \
-    libchromeos-minijail \
-    libchromeos-dbus \
+    libbrillo-minijail \
+    libbrillo-dbus \
     libchrome-dbus \
     libprotobuf-cpp-lite-rtti
 LOCAL_STATIC_LIBRARIES := libshill libgmock libchrome_test_helpers
@@ -571,7 +571,7 @@ LOCAL_CPPFLAGS := $(shill_cpp_flags)
 LOCAL_SHARED_LIBRARIES := \
     $(shill_shared_libraries) \
     libshill-client \
-    libchromeos-dbus \
+    libbrillo-dbus \
     libchrome-dbus
 LOCAL_C_INCLUDES := $(shill_c_includes)
 LOCAL_SRC_FILES := setup_wifi/main.cc
