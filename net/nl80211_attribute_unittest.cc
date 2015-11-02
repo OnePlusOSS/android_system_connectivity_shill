@@ -17,6 +17,9 @@ class Nl80211AttributeTest : public Test {
 };
 
 TEST_F(Nl80211AttributeTest, RegInitiatorDecode) {
+  Nl80211AttributeRegInitiator empty_attribute;
+  EXPECT_FALSE(empty_attribute.InitFromValue(ByteString()));
+
   const uint8_t kU8Value = 123;
   ByteString u8_value(&kU8Value, 1);
   Nl80211AttributeRegInitiator u8_attribute;
