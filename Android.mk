@@ -208,6 +208,7 @@ LOCAL_SRC_FILES := \
     device.cc \
     device_claimer.cc \
     device_info.cc \
+    dhcp_properties.cc \
     dhcp/dhcp_config.cc \
     dhcp/dhcp_provider.cc \
     dhcp/dhcpv4_config.cc \
@@ -396,6 +397,7 @@ LOCAL_SRC_FILES := \
     dhcp/mock_dhcp_config.cc \
     dhcp/mock_dhcp_provider.cc \
     dhcp/mock_dhcp_proxy.cc \
+    dhcp_properties_unittest.cc \
     dns_client_unittest.cc \
     dns_server_tester_unittest.cc \
     error_unittest.cc \
@@ -433,6 +435,7 @@ LOCAL_SRC_FILES := \
     mock_device.cc \
     mock_device_claimer.cc \
     mock_device_info.cc \
+    mock_dhcp_properties.cc \
     mock_dns_client.cc \
     mock_dns_client_factory.cc \
     mock_dns_server_proxy.cc \
