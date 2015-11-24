@@ -6,3 +6,7 @@ service shill /system/bin/shill --device-black-list=sit0,dummy0,p2p0
     class late_start
     user root
     group system dbus inet
+    disabled
+
+on property:wifi-setup.complete=1
+    enable shill
