@@ -24,7 +24,6 @@ LOCAL_PATH := $(call my-dir)
 define shill_cpp_common
   LOCAL_CPP_EXTENSION := .cc
   LOCAL_CLANG := true
-  LOCAL_RTTI_FLAG := -frtti
   LOCAL_CFLAGS := \
       -Wextra \
       -Werror \
@@ -331,7 +330,7 @@ LOCAL_SHARED_LIBRARIES := \
     libchrome-dbus \
     libshill-net \
     libmetrics \
-    libprotobuf-cpp-lite-rtti
+    libprotobuf-cpp-lite
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
 LOCAL_REQUIRED_MODULES := $(WIFI_DRIVER_HAL_MODULE)
@@ -361,7 +360,7 @@ LOCAL_SHARED_LIBRARIES := \
     libbrillo-minijail \
     libbrillo-dbus \
     libchrome-dbus \
-    libprotobuf-cpp-lite-rtti
+    libprotobuf-cpp-lite
 LOCAL_STATIC_LIBRARIES := libshill libgmock libchrome_test_helpers
 proto_header_dir := $(call local-generated-sources-dir)/proto/$(shill_parent_dir)
 LOCAL_C_INCLUDES := \
