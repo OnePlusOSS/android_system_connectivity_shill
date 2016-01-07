@@ -37,7 +37,7 @@ define shill_cpp_common
       -DENABLE_CHROMEOS_DBUS \
       -DENABLE_JSON_STORE
   ifeq ($(SHILL_USE_BINDER), true)
-    LOCAL_CFLAGS += -DENABLE_ANDROID_BINDER
+    LOCAL_CFLAGS += -DENABLE_BINDER
   endif # SHILL_USE_BINDER
   ifneq ($(SHILL_USE_WIFI), true)
     LOCAL_CFLAGS += -DDISABLE_WIFI
@@ -183,13 +183,6 @@ LOCAL_C_INCLUDES := \
     external/cros/system_api/
 LOCAL_SRC_FILES := \
     shims/protos/crypto_util.proto \
-    dbus_bindings/org.chromium.flimflam.Device.dbus-xml \
-    dbus_bindings/org.chromium.flimflam.IPConfig.dbus-xml \
-    dbus_bindings/org.chromium.flimflam.Manager.dbus-xml \
-    dbus_bindings/org.chromium.flimflam.Profile.dbus-xml \
-    dbus_bindings/org.chromium.flimflam.Service.dbus-xml \
-    dbus_bindings/org.chromium.flimflam.Task.dbus-xml \
-    dbus_bindings/org.chromium.flimflam.ThirdPartyVpn.dbus-xml \
     json_store.cc \
     active_link_monitor.cc \
     arp_client.cc \
@@ -206,19 +199,10 @@ LOCAL_SRC_FILES := \
     connectivity_trial.cc \
     crypto_rot47.cc \
     crypto_util_proxy.cc \
-    dbus/chromeos_dbus_adaptor.cc \
-    dbus/chromeos_dbus_control.cc \
     dbus/chromeos_dbus_service_watcher.cc \
-    dbus/chromeos_device_dbus_adaptor.cc \
     dbus/chromeos_dhcpcd_listener.cc \
     dbus/chromeos_dhcpcd_proxy.cc \
     dbus/chromeos_firewalld_proxy.cc \
-    dbus/chromeos_ipconfig_dbus_adaptor.cc \
-    dbus/chromeos_manager_dbus_adaptor.cc \
-    dbus/chromeos_profile_dbus_adaptor.cc \
-    dbus/chromeos_rpc_task_dbus_adaptor.cc \
-    dbus/chromeos_service_dbus_adaptor.cc \
-    dbus/chromeos_third_party_vpn_dbus_adaptor.cc \
     default_profile.cc \
     device.cc \
     device_claimer.cc \
@@ -297,12 +281,40 @@ ifeq ($(SHILL_USE_BINDER), true)
 LOCAL_AIDL_INCLUDES := \
     system/connectivity/shill/binder \
     frameworks/native/aidl/binder
-LOCAL_SHARED_LIBRARIES += libbinder libutils
+LOCAL_SHARED_LIBRARIES += libbinder libutils libbrillo-binder
 LOCAL_SRC_FILES += \
+    adaptor_stub.cc \
     binder/android/system/connectivity/shill/IDevice.aidl \
     binder/android/system/connectivity/shill/IManager.aidl \
+    binder/android/system/connectivity/shill/IPropertyChangedCallback.aidl \
     binder/android/system/connectivity/shill/IService.aidl \
-    binder/android/system/connectivity/shill/IPropertyChangedCallback.aidl
+    binder/binder_adaptor.cc \
+    binder/binder_control.cc \
+    binder/device_binder_adaptor.cc \
+    binder/manager_binder_adaptor.cc \
+    binder/service_binder_adaptor.cc \
+    ipconfig_adaptor_stub.cc \
+    profile_adaptor_stub.cc \
+    rpc_task_adaptor_stub.cc \
+    third_party_vpn_adaptor_stub.cc
+else
+LOCAL_SRC_FILES += \
+    dbus/chromeos_dbus_adaptor.cc \
+    dbus/chromeos_dbus_control.cc \
+    dbus/chromeos_device_dbus_adaptor.cc \
+    dbus/chromeos_ipconfig_dbus_adaptor.cc \
+    dbus/chromeos_manager_dbus_adaptor.cc \
+    dbus/chromeos_profile_dbus_adaptor.cc \
+    dbus/chromeos_rpc_task_dbus_adaptor.cc \
+    dbus/chromeos_service_dbus_adaptor.cc \
+    dbus/chromeos_third_party_vpn_dbus_adaptor.cc \
+    dbus_bindings/org.chromium.flimflam.Device.dbus-xml \
+    dbus_bindings/org.chromium.flimflam.IPConfig.dbus-xml \
+    dbus_bindings/org.chromium.flimflam.Manager.dbus-xml \
+    dbus_bindings/org.chromium.flimflam.Profile.dbus-xml \
+    dbus_bindings/org.chromium.flimflam.Service.dbus-xml \
+    dbus_bindings/org.chromium.flimflam.Task.dbus-xml \
+    dbus_bindings/org.chromium.flimflam.ThirdPartyVpn.dbus-xml
 endif # SHILL_USE_BINDER
 ifeq ($(SHILL_USE_WIFI), true)
 LOCAL_SRC_FILES += \
@@ -359,7 +371,7 @@ LOCAL_SHARED_LIBRARIES := \
     libmetrics \
     libprotobuf-cpp-lite
 ifeq ($(SHILL_USE_BINDER), true)
-LOCAL_SHARED_LIBRARIES += libbrillo-binder
+LOCAL_SHARED_LIBRARIES += libbinder libutils libbrillo-binder
 endif # SHILL_USE_BINDER
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
@@ -391,9 +403,6 @@ LOCAL_SHARED_LIBRARIES := \
     libbrillo-dbus \
     libchrome-dbus \
     libprotobuf-cpp-lite
-ifeq ($(SHILL_USE_BINDER), true)
-LOCAL_SHARED_LIBRARIES += libbrillo-binder
-endif # SHILL_USE_BINDER
 LOCAL_STATIC_LIBRARIES := libshill libgmock libchrome_test_helpers
 proto_header_dir := $(call local-generated-sources-dir)/proto/$(shill_parent_dir)
 LOCAL_C_INCLUDES := \
@@ -418,7 +427,6 @@ LOCAL_SRC_FILES := \
     connectivity_trial_unittest.cc \
     crypto_rot47_unittest.cc \
     crypto_util_proxy_unittest.cc \
-    dbus/chromeos_dbus_adaptor_unittest.cc \
     default_profile_unittest.cc \
     device_claimer_unittest.cc \
     device_info_unittest.cc \
@@ -545,6 +553,12 @@ LOCAL_SRC_FILES := \
     virtual_device_unittest.cc \
     vpn/mock_vpn_provider.cc \
     json_store_unittest.cc
+ifeq ($(SHILL_USE_BINDER), true)
+LOCAL_SHARED_LIBRARIES += libbinder libutils libbrillo-binder
+else
+LOCAL_SRC_FILES += \
+    dbus/chromeos_dbus_adaptor_unittest.cc
+endif # SHILL_USE_BINDER
 ifeq ($(SHILL_USE_WIFI), true)
 LOCAL_SRC_FILES += \
     net/netlink_manager_unittest.cc \
