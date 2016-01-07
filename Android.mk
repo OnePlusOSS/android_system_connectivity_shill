@@ -36,6 +36,9 @@ define shill_cpp_common
       -DDISABLE_WIMAX \
       -DENABLE_CHROMEOS_DBUS \
       -DENABLE_JSON_STORE
+  ifeq ($(SHILL_USE_BINDER), true)
+    LOCAL_CFLAGS += -DENABLE_ANDROID_BINDER
+  endif # SHILL_USE_BINDER
   ifneq ($(SHILL_USE_WIFI), true)
     LOCAL_CFLAGS += -DDISABLE_WIFI
   endif
@@ -110,6 +113,9 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := libshill-client
 LOCAL_DBUS_PROXY_PREFIX := shill
+# TODO(samueltan): do not build these dbus-xml files when shill is using
+# its Binder interface. All of shill's D-Bus clients will have to accommodate
+# to this change.
 LOCAL_SRC_FILES := \
     dbus_bindings/dbus-service-config.json \
     dbus_bindings/org.chromium.flimflam.Device.dbus-xml \
@@ -119,6 +125,17 @@ LOCAL_SRC_FILES := \
     dbus_bindings/org.chromium.flimflam.Service.dbus-xml \
     dbus_bindings/org.chromium.flimflam.Task.dbus-xml \
     dbus_bindings/org.chromium.flimflam.ThirdPartyVpn.dbus-xml
+ifeq ($(SHILL_USE_BINDER), true)
+LOCAL_AIDL_INCLUDES := \
+    system/connectivity/shill/binder \
+    frameworks/native/aidl/binder
+LOCAL_SHARED_LIBRARIES := libbinder libutils
+LOCAL_SRC_FILES += \
+    binder/android/system/connectivity/shill/IDevice.aidl \
+    binder/android/system/connectivity/shill/IManager.aidl \
+    binder/android/system/connectivity/shill/IService.aidl \
+    binder/android/system/connectivity/shill/IPropertyChangedCallback.aidl
+endif # SHILL_USE_BINDER
 LOCAL_EXPORT_C_INCLUDE_DIRS := external/cros/system_api/
 include $(BUILD_SHARED_LIBRARY)
 
@@ -277,6 +294,17 @@ LOCAL_SRC_FILES := \
     vpn/vpn_driver.cc \
     vpn/vpn_provider.cc \
     vpn/vpn_service.cc
+ifeq ($(SHILL_USE_BINDER), true)
+LOCAL_AIDL_INCLUDES := \
+    system/connectivity/shill/binder \
+    frameworks/native/aidl/binder
+LOCAL_SHARED_LIBRARIES += libbinder libutils
+LOCAL_SRC_FILES += \
+    binder/android/system/connectivity/shill/IDevice.aidl \
+    binder/android/system/connectivity/shill/IManager.aidl \
+    binder/android/system/connectivity/shill/IService.aidl \
+    binder/android/system/connectivity/shill/IPropertyChangedCallback.aidl
+endif # SHILL_USE_BINDER
 ifeq ($(SHILL_USE_WIFI), true)
 LOCAL_SRC_FILES += \
     wifi/callback80211_metrics.cc \
@@ -331,6 +359,9 @@ LOCAL_SHARED_LIBRARIES := \
     libshill-net \
     libmetrics \
     libprotobuf-cpp-lite
+ifeq ($(SHILL_USE_BINDER), true)
+LOCAL_SHARED_LIBRARIES += libbrillo-binder
+endif # SHILL_USE_BINDER
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
 LOCAL_REQUIRED_MODULES := $(WIFI_DRIVER_HAL_MODULE)
@@ -361,6 +392,9 @@ LOCAL_SHARED_LIBRARIES := \
     libbrillo-dbus \
     libchrome-dbus \
     libprotobuf-cpp-lite
+ifeq ($(SHILL_USE_BINDER), true)
+LOCAL_SHARED_LIBRARIES += libbrillo-binder
+endif # SHILL_USE_BINDER
 LOCAL_STATIC_LIBRARIES := libshill libgmock libchrome_test_helpers
 proto_header_dir := $(call local-generated-sources-dir)/proto/$(shill_parent_dir)
 LOCAL_C_INCLUDES := \
@@ -565,6 +599,19 @@ endif # BRILLO
 $(eval $(shill_cpp_common))
 include $(BUILD_NATIVE_TEST)
 
+# helper scripts
+# ========================================================
+include $(CLEAR_VARS)
+LOCAL_MODULE_TAGS := eng tests
+LOCAL_PREBUILT_EXECUTABLES := \
+    bin/wpa_debug \
+    bin/ff_debug
+include $(BUILD_MULTI_PREBUILT)
+
+# The following  two targets use the shill D-Bus API, which we do not expose
+# if we are using Binder.
+ifneq ($(SHILL_USE_BINDER), true)
+
 # setup_wifi
 # ========================================================
 include $(CLEAR_VARS)
@@ -580,15 +627,6 @@ LOCAL_C_INCLUDES := $(shill_c_includes)
 LOCAL_SRC_FILES := setup_wifi/main.cc
 $(eval $(shill_cpp_common))
 include $(BUILD_EXECUTABLE)
-
-# helper scripts
-# ========================================================
-include $(CLEAR_VARS)
-LOCAL_MODULE_TAGS := eng tests
-LOCAL_PREBUILT_EXECUTABLES := \
-    bin/wpa_debug \
-    bin/ff_debug
-include $(BUILD_MULTI_PREBUILT)
 
 # test-rpc-proxy
 # ========================================================
@@ -609,3 +647,6 @@ LOCAL_C_INCLUDES := \
 $(eval $(shill_cpp_common))
 LOCAL_SRC_FILES := $(call all-cpp-files-under,test-rpc-proxy)
 include $(BUILD_EXECUTABLE)
+
+endif # SHILL_USE_BINDER
+
