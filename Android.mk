@@ -281,7 +281,7 @@ ifeq ($(SHILL_USE_BINDER), true)
 LOCAL_AIDL_INCLUDES := \
     system/connectivity/shill/binder \
     frameworks/native/aidl/binder
-LOCAL_SHARED_LIBRARIES += libbinder libutils libbrillo-binder
+LOCAL_SHARED_LIBRARIES += libbinder libbinderwrapper libutils libbrillo-binder
 LOCAL_SRC_FILES += \
     adaptor_stub.cc \
     binder/android/system/connectivity/shill/IDevice.aidl \
@@ -371,7 +371,7 @@ LOCAL_SHARED_LIBRARIES := \
     libmetrics \
     libprotobuf-cpp-lite
 ifeq ($(SHILL_USE_BINDER), true)
-LOCAL_SHARED_LIBRARIES += libbinder libutils libbrillo-binder
+LOCAL_SHARED_LIBRARIES += libbinder libbinderwrapper libutils libbrillo-binder
 endif # SHILL_USE_BINDER
 ifdef BRILLO
 LOCAL_SHARED_LIBRARIES += libhardware
@@ -554,7 +554,7 @@ LOCAL_SRC_FILES := \
     vpn/mock_vpn_provider.cc \
     json_store_unittest.cc
 ifeq ($(SHILL_USE_BINDER), true)
-LOCAL_SHARED_LIBRARIES += libbinder libutils libbrillo-binder
+LOCAL_SHARED_LIBRARIES += libbinder libbinderwrapper libutils libbrillo-binder
 else
 LOCAL_SRC_FILES += \
     dbus/chromeos_dbus_adaptor_unittest.cc
