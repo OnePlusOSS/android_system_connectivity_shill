@@ -308,6 +308,7 @@ LOCAL_SRC_FILES += \
     dbus/chromeos_rpc_task_dbus_adaptor.cc \
     dbus/chromeos_service_dbus_adaptor.cc \
     dbus/chromeos_third_party_vpn_dbus_adaptor.cc \
+    dbus/dbus_service_watcher_factory.cc \
     dbus_bindings/org.chromium.flimflam.Device.dbus-xml \
     dbus_bindings/org.chromium.flimflam.IPConfig.dbus-xml \
     dbus_bindings/org.chromium.flimflam.Manager.dbus-xml \
@@ -556,8 +557,10 @@ LOCAL_SRC_FILES := \
 ifeq ($(SHILL_USE_BINDER), true)
 LOCAL_SHARED_LIBRARIES += libbinder libbinderwrapper libutils libbrillo-binder
 else
+LOCAL_STATIC_LIBRARIES += libchrome_dbus_test_helpers
 LOCAL_SRC_FILES += \
-    dbus/chromeos_dbus_adaptor_unittest.cc
+    dbus/chromeos_dbus_adaptor_unittest.cc \
+    dbus/chromeos_manager_dbus_adaptor_unittest.cc
 endif # SHILL_USE_BINDER
 ifeq ($(SHILL_USE_WIFI), true)
 LOCAL_SRC_FILES += \
