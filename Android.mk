@@ -263,6 +263,7 @@ LOCAL_SRC_FILES := \
     service_property_change_notifier.cc \
     shill_ares.cc \
     shill_config.cc \
+    shill_daemon.cc \
     shill_test_config.cc \
     socket_info.cc \
     socket_info_reader.cc \
