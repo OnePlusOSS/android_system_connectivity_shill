@@ -189,7 +189,6 @@ LOCAL_SRC_FILES := \
     arp_packet.cc \
     async_connection.cc \
     certificate_file.cc \
-    chromeos_daemon.cc \
     connection.cc \
     connection_diagnostics.cc \
     connection_health_checker.cc \
@@ -199,6 +198,7 @@ LOCAL_SRC_FILES := \
     connectivity_trial.cc \
     crypto_rot47.cc \
     crypto_util_proxy.cc \
+    daemon_task.cc \
     dbus/chromeos_dbus_service_watcher.cc \
     dbus/chromeos_dhcpcd_listener.cc \
     dbus/chromeos_dhcpcd_proxy.cc \
@@ -419,7 +419,6 @@ LOCAL_SRC_FILES := \
     arp_packet_unittest.cc \
     async_connection_unittest.cc \
     certificate_file_unittest.cc \
-    chromeos_daemon_unittest.cc \
     connection_diagnostics_unittest.cc \
     connection_health_checker_unittest.cc \
     connection_info_reader_unittest.cc \
@@ -429,6 +428,7 @@ LOCAL_SRC_FILES := \
     connectivity_trial_unittest.cc \
     crypto_rot47_unittest.cc \
     crypto_util_proxy_unittest.cc \
+    daemon_task_unittest.cc \
     default_profile_unittest.cc \
     device_claimer_unittest.cc \
     device_info_unittest.cc \
