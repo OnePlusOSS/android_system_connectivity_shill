@@ -392,7 +392,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := shill_test
 LOCAL_MODULE_CLASS := EXECUTABLES
 ifdef BRILLO
-LOCAL_MODULE_TAGS := debug
+LOCAL_MODULE_TAGS := eng
 endif # BRILLO
 LOCAL_CPPFLAGS := $(shill_cpp_flags) -Wno-sign-compare -Wno-return-stack-address
 LOCAL_SHARED_LIBRARIES := \
