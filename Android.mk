@@ -647,23 +647,23 @@ include $(BUILD_EXECUTABLE)
 
 # test-rpc-proxy
 # ========================================================
-include $(CLEAR_VARS)
-LOCAL_MODULE := shill-test-rpc-proxy
-LOCAL_MODULE_TAGS := eng tests
-LOCAL_CPPFLAGS := $(shill_cpp_flags)
-LOCAL_SHARED_LIBRARIES := \
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := shill-test-rpc-proxy
+#LOCAL_MODULE_TAGS := eng tests
+#LOCAL_CPPFLAGS := $(shill_cpp_flags)
+#LOCAL_SHARED_LIBRARIES := \
     $(shill_shared_libraries) \
     libshill-client \
     libbrillo-dbus \
     libchrome-dbus \
     libxmlrpc++
-LOCAL_C_INCLUDES := \
+#LOCAL_C_INCLUDES := \
     $(shill_c_includes) \
     external/cros/system_api/dbus \
     external/xmlrpcpp/src
-$(eval $(shill_cpp_common))
-LOCAL_SRC_FILES := $(call all-cpp-files-under,test-rpc-proxy)
-include $(BUILD_EXECUTABLE)
+#$(eval $(shill_cpp_common))
+#LOCAL_SRC_FILES := $(call all-cpp-files-under,test-rpc-proxy)
+#include $(BUILD_EXECUTABLE)
 
 endif # SHILL_USE_BINDER
 
